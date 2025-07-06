@@ -6,6 +6,7 @@ import Confetti from "react-confetti"
 export default function App() {
   const [dice, setDice] = useState(() => generateAllNewDice())
   const [timer, setTimer] = useState(10)
+  const [rollCount, setRollCount] = useState(0)
   const buttonRef = useRef(null)
 
   const gameWon = dice.every(die => die.isHeld) &&
@@ -14,9 +15,9 @@ export default function App() {
   useEffect(() => {
     if (gameWon) {
       buttonRef.current.focus()
-      return // Stop timer when game is won
+      return
     }
-    setTimer(10) // Reset timer on new game or dice change
+    setTimer(10)
   }, [gameWon])
 
   useEffect(() => {
@@ -49,10 +50,12 @@ export default function App() {
           die :
           { ...die, value: Math.ceil(Math.random() * 6) }
       ))
+      setRollCount(count => count + 1)
     } else {
       setDice(generateAllNewDice())
+      setRollCount(0)
     }
-    setTimer(10) // Reset timer on manual roll
+    setTimer(10)
   }
 
   function hold(id) {
@@ -76,6 +79,9 @@ export default function App() {
       <h1 className="title">Tenzies</h1>
       <p className="instructions">Roll until all dice are the same.
         Click each die to freeze it at its current value between rolls.</p>
+      <div className="rolls">
+        Rolls: {rollCount}
+      </div>
       <div className="dice-container">
         {diceElements}
       </div>
