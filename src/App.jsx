@@ -7,6 +7,7 @@ export default function App() {
   const [dice, setDice] = useState(() => generateAllNewDice())
   const [timer, setTimer] = useState(10)
   const [rollCount, setRollCount] = useState(0)
+  const [totalTime, setTotalTime] = useState(0)
   const buttonRef = useRef(null)
 
   const gameWon = dice.every(die => die.isHeld) &&
@@ -18,6 +19,7 @@ export default function App() {
       return
     }
     setTimer(10)
+    setTotalTime(0) // Reset total time on new game
   }, [gameWon])
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export default function App() {
     }
     const interval = setInterval(() => {
       setTimer(t => t - 1)
+      setTotalTime(t => t + 1)
     }, 1000)
     return () => clearInterval(interval)
   }, [timer, gameWon])
@@ -79,8 +82,9 @@ export default function App() {
       <h1 className="title">Tenzies</h1>
       <p className="instructions">Roll until all dice are the same.
         Click each die to freeze it at its current value between rolls.</p>
-      <div className="rolls">
-        Rolls: {rollCount}
+      <div className="stats">
+        <span>Rolls: {rollCount}</span>
+        <span>Total Time: {totalTime}s</span>
       </div>
       <div className="dice-container">
         {diceElements}

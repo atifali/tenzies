@@ -43,10 +43,13 @@ main {
     padding: 10px;
 }
 
-.rolls {
-    font-weight: bold;
-    font-size: 1.2rem;
+.stats {
+    font-weight: light;
+    font-size: 1.1rem;
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .dice-container {
